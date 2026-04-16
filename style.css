@@ -1,0 +1,452 @@
+/* --- Polices --- */
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;800&family=Barlow+Condensed:wght@400;700&display=swap');
+
+:root {
+  --bg-dark: #0a0e1a;
+  --panel-dark: #111827;
+  --blue-glow: 0 0 20px rgba(6,182,212,0.6);
+  --cyan: #06b6d4;
+  --gold: #f59e0b;
+  --red: #ef4444;
+  --green: #10b981;
+  --orange: #f97316;
+  --text-light: #e2e8f0;
+  --shadow-tile: 0 4px 0 #94a3b8;
+}
+
+/* --- Styles globaux --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  font-family: 'Exo 2', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden; /* Empêche le défilement horizontal */
+}
+
+/* --- Arrière-plan spatial --- */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(ellipse at 20% 20%, rgba(30,64,175,0.2) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(6,182,212,0.1) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Étoiles */
+.stars {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.star {
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  animation: twinkle 3s ease-in-out infinite alternate;
+}
+@keyframes twinkle { 0% { opacity: 0.3; } 100% { opacity: 1; transform: scale(1.3); } }
+
+/* --- Conteneur principal --- */
+.container {
+  position: relative;
+  z-index: 1;
+  width: 92%; /* Prend 92% de l'écran sur mobile pour laisser des marges */
+  max-width: 450px; /* Taille par défaut pour les téléphones */
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 4vh; /* Utilisation de la hauteur de l'écran (vh) pour s'adapter */
+  margin-bottom: 4vh;
+}
+
+/* --- Titre du jeu --- */
+.game-title {
+  text-align: center;
+  padding: 12px;
+  background: linear-gradient(135deg, #1e3a8a, #0c1e3a);
+  border: 1px solid rgba(6,182,212,0.4);
+  border-radius: 12px;
+  width: 100%;
+  box-shadow: var(--blue-glow);
+}
+.game-title h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.game-title p { font-size: 0.8rem; color: #94a3b8; margin-top: 4px; }
+
+/* --- Stats --- */
+.stats {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+.stat-box {
+  flex: 1;
+  background: linear-gradient(135deg, #1e2d4a, #0f1e35);
+  border: 1px solid rgba(59,130,246,0.3);
+  border-radius: 10px;
+  padding: 10px 0;
+  text-align: center;
+}
+.stat-label { font-size: 0.6rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+.stat-value { font-family: 'Barlow Condensed', sans-serif; font-size: 1.8rem; font-weight: 700; color: white; }
+#score-value { color: var(--gold); }
+#found-value { color: var(--cyan); }
+#found-value span { font-size: 1rem; color: #64748b; }
+.lives { display: flex; gap: 4px; justify-content: center; }
+.heart { color: var(--red); font-size: 1rem; }
+
+/* --- Sélecteur de catégorie --- */
+.category-select {
+  background-color: #3b82f6;
+  border-radius: 20px;
+  padding: 5px 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: white;
+  cursor: pointer;
+  text-transform: uppercase;
+  box-shadow: 0 0 10px rgba(59,130,246,0.4);
+}
+
+/* --- Clue Box --- */
+.clue-box {
+  width: 100%;
+  background-color: var(--panel-dark);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.clue-number {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: white;
+  width: 40px; height: 40px;
+  background: radial-gradient(circle, #3b82f6 0%, transparent 80%);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 15px rgba(59,130,246,0.7);
+  margin-bottom: 8px;
+}
+.clue-text { font-size: 0.9rem; color: #cbd5e1; line-height: 1.4; }
+
+/* --- Cases de réponse --- */
+.answer-slots {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.slot {
+  width: 48px; height: 48px;
+  background-color: rgba(255,255,255,0.03);
+  border: 2px solid rgba(6,182,212,0.3);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.slot.correct { border-color: var(--green); background-color: rgba(16,185,129,0.1); }
+.slot.filled { border-color: var(--cyan); background-color: rgba(6,182,212,0.1); }
+
+/* --- Tuiles de lettres --- */
+.letter-tiles {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+}
+.tile {
+  width: 56px; height: 56px;
+  background-color: white;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #0f172a;
+  cursor: pointer;
+  box-shadow: var(--shadow-tile);
+  transition: transform 0.1s, box-shadow 0.1s;
+  user-select: none;
+}
+.tile:active { transform: translateY(4px); box-shadow: none; }
+.tile.used { opacity: 0.3; cursor: default; }
+
+/* --- Boutons d'action --- */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  margin-top: 10px;
+}
+.btn {
+  flex: 1;
+  padding: 14px 10px;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.2s;
+}
+.btn:active { transform: translateY(2px); }
+.btn-validate { background-color: #10b981; color: white; box-shadow: 0 0 15px rgba(16,185,129,0.5); }
+.btn-hint { background-color: #f97316; color: white; box-shadow: 0 0 15px rgba(249,115,22,0.5); }
+.btn-clear { background-color: #ef4444; color: white; box-shadow: 0 0 15px rgba(239,68,68,0.5); }
+
+/* --- Section de mots trouvés --- */
+.found-words-section {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  color: #475569;
+  text-transform: uppercase;
+  align-self: flex-start;
+  padding-left: 4px;
+  margin-top: 8px;
+}
+
+
+/* =========================================================
+   ADAPTATION PC & TABLETTES (RESPONSIVE DESIGN)
+   ========================================================= */
+@media (min-width: 768px) {
+  /* On élargit le conteneur et on augmente les espacements */
+  .container {
+    max-width: 650px;
+    gap: 20px;
+    padding: 30px;
+    margin-top: 8vh;
+  }
+  
+  /* On grossit les textes de l'en-tête */
+  .game-title h1 { font-size: 2.2rem; }
+  .game-title p { font-size: 1.1rem; }
+  
+  /* On grossit les scores */
+  .stat-value { font-size: 2.4rem; }
+  .stat-label { font-size: 0.8rem; }
+  .heart { font-size: 1.4rem; }
+
+  /* On grossit la question */
+  .category-select { font-size: 1rem; padding: 8px 20px; }
+  .clue-number { width: 50px; height: 50px; font-size: 2.4rem; margin-bottom: 15px; }
+  .clue-text { font-size: 1.2rem; line-height: 1.6; }
+
+  /* On grossit les cases et les tuiles de lettres */
+  .slot { width: 64px; height: 64px; font-size: 2.8rem; border-radius: 12px; }
+  .tile { width: 76px; height: 76px; font-size: 3rem; border-radius: 14px; }
+  
+  /* On grossit les boutons d'action */
+  .btn { padding: 18px 12px; font-size: 1.3rem; border-radius: 14px; }
+  
+  .found-words-section { font-size: 1rem; }
+}
+
+/* =========================================================
+   MODALE DE CLASSEMENT FINAL
+   ========================================================= */
+.modal {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(10, 14, 26, 0.9);
+  z-index: 100;
+  display: flex; justify-content: center; align-items: center;
+  backdrop-filter: blur(5px);
+}
+.modal.hidden { display: none !important; }
+
+.modal-content {
+  background: var(--panel-dark);
+  border: 1px solid rgba(6,182,212,0.4);
+  border-radius: 16px;
+  padding: 24px; width: 90%; max-width: 400px;
+  text-align: center;
+  box-shadow: var(--blue-glow);
+}
+.modal-content h2 { color: var(--cyan); font-family: 'Barlow Condensed', sans-serif; font-size: 2.2rem; margin-bottom: 5px; }
+.modal-content p { font-size: 1.1rem; margin-bottom: 20px; color: #cbd5e1; }
+.gold-text { color: var(--gold); font-weight: bold; font-size: 1.6rem; font-family: 'Barlow Condensed', sans-serif; }
+
+#player-name {
+  width: 100%; padding: 14px; border-radius: 10px;
+  border: 1px solid var(--cyan); background: rgba(255,255,255,0.05);
+  color: white; font-family: 'Exo 2', sans-serif; font-size: 1.1rem;
+  margin-bottom: 15px; text-align: center; outline: none;
+}
+#player-name:focus { box-shadow: 0 0 15px rgba(6,182,212,0.5); }
+
+#leaderboard-list {
+  list-style: none; padding: 0; margin-top: 10px;
+  max-height: 220px; overflow-y: auto; text-align: left;
+}
+#leaderboard-list li {
+  display: flex; justify-content: space-between;
+  background: rgba(255,255,255,0.05); padding: 12px;
+  border-radius: 8px; margin-bottom: 8px;
+  font-family: 'Barlow Condensed', sans-serif; font-size: 1.2rem;
+  border-left: 3px solid var(--cyan);
+}
+#leaderboard-list li span:last-child { color: var(--gold); font-weight: bold; }
+.hidden { display: none; }
+
+/* =========================================================
+   BOUTON PLEIN ÉCRAN
+   ========================================================= */
+#fullscreen-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(6,182,212,0.4);
+  color: var(--cyan);
+  border-radius: 10px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+  transition: all 0.2s ease;
+}
+
+#fullscreen-btn:hover {
+  background: rgba(6,182,212,0.2);
+  box-shadow: 0 0 12px rgba(6,182,212,0.5);
+  transform: scale(1.05);
+}
+
+#fullscreen-btn:active {
+  transform: scale(0.95);
+}
+
+/* On peut cacher ce bouton sur les tout petits téléphones si besoin, 
+   mais par défaut il s'affichera partout. */
+@media (max-width: 400px) {
+  #fullscreen-btn {
+    top: 10px;
+    left: 10px;
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* =========================================================
+   ADAPTATION PC & TABLETTES (Plein écran recentré et agrandi)
+   ========================================================= */
+@media (min-width: 768px) {
+  /* On élargit considérablement le conteneur central */
+  .container {
+    max-width: 950px; 
+    gap: 25px;
+    padding: 30px;
+    margin-top: 6vh;
+  }
+  
+  /* Textes de l'en-tête plus massifs */
+  .game-title h1 { font-size: 2.6rem; }
+  .game-title p { font-size: 1.2rem; }
+  
+  /* Statistiques plus imposantes */
+  .stat-box { padding: 15px 0; }
+  .stat-value { font-size: 3rem; }
+  .stat-label { font-size: 1rem; letter-spacing: 1px; }
+  .heart { font-size: 1.8rem; }
+
+  /* Indice et question plus larges */
+  .category-select { font-size: 1.2rem; padding: 10px 30px; }
+  .clue-number { width: 60px; height: 60px; font-size: 2.8rem; margin-bottom: 15px; }
+  .clue-text { font-size: 1.5rem; line-height: 1.6; padding: 0 40px; }
+
+  /* Cases et tuiles gigantesques pour bien occuper l'espace */
+  .slot { width: 80px; height: 80px; font-size: 3.5rem; border-radius: 12px; }
+  .tile { width: 85px; height: 85px; font-size: 3.8rem; border-radius: 14px; }
+  
+  /* Boutons plus cliquables et centrés */
+  .action-buttons { max-width: 700px; margin: 10px auto 0 auto; gap: 20px; }
+  .btn { padding: 22px 15px; font-size: 1.4rem; border-radius: 16px; }
+  
+  /* Les mots trouvés s'étalent sur toute la largeur en bas */
+  .found-words-section { 
+    font-size: 1.2rem; 
+    text-align: center; 
+    width: 100%; 
+    margin-top: 20px;
+  }
+  
+  /* On force les mots trouvés à se placer les uns à côté des autres */
+  .found-words-section span {
+    display: inline-block !important;
+    font-size: 1.2rem !important;
+    padding: 8px 16px !important;
+    margin: 8px !important;
+  }
+}
+
+/* =========================================================
+   LOGO AIRBUS (Watermark)
+   ========================================================= */
+#airbus-logo {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 120px; /* Taille sur PC */
+  height: auto;
+  z-index: 50;
+  opacity: 0.6; /* Un peu transparent pour ne pas gêner la lecture */
+  pointer-events: none; /* Pour que le logo ne bloque pas les clics en dessous */
+  transition: opacity 0.3s ease;
+}
+
+/* Sur PC, on le rend un peu plus visible au survol de la page */
+body:hover #airbus-logo {
+  opacity: 0.9;
+}
+
+/* Adaptation pour les mobiles (plus petit pour ne pas gêner les boutons) */
+@media (max-width: 768px) {
+  #airbus-logo {
+    width: 80px;
+    bottom: 10px;
+    right: 10px;
+    opacity: 0.4;
+  }
+}

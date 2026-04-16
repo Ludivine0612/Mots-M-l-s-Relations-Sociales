@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dialogue Social — Le Jeu</title>
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <button id="fullscreen-btn" onclick="toggleFullScreen()" title="Passer en plein écran">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+    </svg>
+  </button>
+
+  <div class="stars"></div>
+
+  <div class="container">
+    <div class="game-title">
+      <h1><span style="font-size: 1.2rem; vertical-align: middle;">🤝</span> DIALOGUE SOCIAL</h1>
+      <p>Peux-tu former 20 mots ?</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-label">Score</div>
+        <div class="stat-value" id="score-value">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Trouvés</div>
+        <div class="stat-value" id="found-value">0<span>/20</span></div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Essais</div>
+        <div class="stat-value lives">
+          <span class="heart">&#10084;&#65039;</span><span class="heart">&#10084;&#65039;</span><span class="heart">&#10084;&#65039;</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="category-select"><span style="vertical-align: middle; margin-right: 4px;">📋</span> NÉGOCIATION</div>
+
+    <div class="clue-box">
+      <div class="clue-number">1</div>
+      <div class="clue-text">Manière d'agir convenue entre partenaires sociaux pour régler un différend (ex : résolution à l'___)</div>
+    </div>
+
+    <div class="answer-slots">
+      <div class="slot" id="slot-0"></div>
+      <div class="slot" id="slot-1"></div>
+      <div class="slot" id="slot-2"></div>
+      <div class="slot" id="slot-3"></div>
+    </div>
+
+    <div class="letter-tiles" id="tiles-area">
+      </div>
+
+    <div class="action-buttons">
+      <button class="btn btn-validate" onclick="validateProposedWord()">✓ Valider</button>
+      <button class="btn btn-hint" onclick="giveHint()">💡 Indice</button>
+      <button class="btn btn-clear" onclick="clearCurrentProposedWord()">✕ Effacer</button>
+    </div>
+
+    <div class="found-words-section">Mots trouvés</div>
+  </div>
+
+  <div id="endgame-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2 id="endgame-title">🎉 Terminé !</h2>
+      <p>Score final : <span id="final-score-display" class="gold-text">0</span></p>
+
+      <div id="name-input-section">
+        <input type="text" id="player-name" placeholder="Entre ton pseudo..." maxlength="15">
+        <button class="btn btn-validate" onclick="saveScore()">Enregistrer</button>
+      </div>
+
+      <div id="leaderboard-section" class="hidden">
+        <ul id="leaderboard-list"></ul>
+        <button class="btn btn-validate" style="margin-top: 15px; width: 100%;" onclick="startNewGame()">Nouveau Joueur</button>
+        <button class="btn btn-clear" style="margin-top: 10px; width: 100%; font-size: 0.9rem;" onclick="clearLeaderboard()">Effacer l'historique</button>
+      </div>
+    </div>
+  </div>
+
+  <img src="logo.png" id="airbus-logo" alt="Airbus Logo">
+
+  <script src="script.js"></script>
+</body>
+</html>
