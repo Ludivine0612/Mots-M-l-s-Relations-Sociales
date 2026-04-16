@@ -3,7 +3,7 @@
 // =========================================================
 const GAME_DATA = [
 
-  { word: "SYNDICAT", letters: ["N", "I", "T", "S", "A", "C", "D", "Y"], clue: "Organisation (comme la CFE-CGC, FO, CFDT, CGT) défendant les intérêts professionnels des salariés.", theme: "📣 REPRÉSENTATION" },
+  { word: "SYNDICAT", letters: ["N", "I", "T", "S", "A", "C", "D", "Y"], clue: "Organisation (comme FO, la CFE-CGC, la CFTC...) défendant les intérêts professionnels des salariés.", theme: "📣 REPRÉSENTATION" },
   { word: "INTERSYNDICALE", letters: ["L", "E", "N", "I", "T", "R", "S", "Y", "N", "D", "I", "C", "A", "E"], clue: "Regroupement temporaire de plusieurs organisations pour mener une action ou une négociation commune.", theme: "✊ ACTION COLLECTIVE" }, 
   { word: "NEGOCIATION", letters: ["I", "O", "N", "G", "E", "N", "O", "C", "I", "A", "T"], clue: "Processus de discussion entre direction et syndicats visant à un compromis mutuellement acceptable.", theme: "🤝 DIALOGUE" },  
   { word: "DIALOGUE", letters: ["L", "I", "E", "U", "G", "O", "D", "A"], clue: "Échange institutionnel entre la direction et les représentants du personnel : le ___ social.", theme: "🤝 BASE DU JEU" },
