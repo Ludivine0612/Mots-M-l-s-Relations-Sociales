@@ -450,3 +450,39 @@ body:hover #airbus-logo {
     opacity: 0.4;
   }
 }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+.answer-slots {
+  display: flex;
+  gap: 4px; /* Réduit l'espace entre les cases */
+  flex-wrap: wrap; /* Permet de passer à la ligne sur petit écran */
+  justify-content: center;
+  width: 100%;
+}
+
+.slot {
+  /* Utilise une unité flexible pour que la case s'adapte à la largeur de l'écran */
+  max-width: 35px; 
+  height: 45px;
+  font-size: 1.5rem;
+}
+
+#airbus-quote {
+    text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+    letter-spacing: 0.5px;
+    animation: fadeInQuote 2s ease-in;
+}
+
+@keyframes fadeInQuote {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
