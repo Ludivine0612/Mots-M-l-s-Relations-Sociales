@@ -271,12 +271,32 @@ function clearLeaderboard() {
 }
 
 function toggleFullScreen() {
-  document.activeElement.blur();
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen().catch(err => console.log(err));
-  } else {
-    if (document.exitFullscreen) document.exitFullscreen();
-  }
+    // On récupère l'élément racine (tout le jeu)
+    const docElm = document.documentElement;
+
+    if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.mozFullScreenElement && !document.msFullscreenElement) {
+        // Entrer en plein écran (on teste tous les navigateurs)
+        if (docElm.requestFullscreen) {
+            docElm.requestFullscreen();
+        } else if (docElm.mozRequestFullScreen) { /* Firefox */
+            docElm.mozRequestFullScreen();
+        } else if (docElm.webkitRequestFullscreen) { /* Chrome, Safari et Opera */
+            docElm.webkitRequestFullscreen();
+        } else if (docElm.msRequestFullscreen) { /* IE/Edge */
+            docElm.msRequestFullscreen();
+        }
+    } else {
+        // Quitter le plein écran
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+    }
 }
 
 function clearCurrentProposedWord() {
