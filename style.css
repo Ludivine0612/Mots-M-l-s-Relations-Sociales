@@ -4,7 +4,7 @@
 :root {
   --bg-dark: #0a0e1a;
   --panel-dark: #111827;
-  --blue-glow: 0 0 20px rgba(6,182,212,0.6);
+  --blue-glow: 0 0 20px rgba(6,182,212,0.4);
   --cyan: #06b6d4;
   --gold: #f59e0b;
   --red: #ef4444;
@@ -25,17 +25,15 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-x: hidden; /* Empêche le défilement horizontal */
+  overflow-x: hidden;
 }
 
 /* --- Arrière-plan spatial --- */
 body::before {
   content: '';
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   background: 
     radial-gradient(ellipse at 20% 20%, rgba(30,64,175,0.2) 0%, transparent 50%),
     radial-gradient(ellipse at 80% 80%, rgba(6,182,212,0.1) 0%, transparent 50%);
@@ -43,7 +41,6 @@ body::before {
   z-index: 0;
 }
 
-/* Étoiles */
 .stars {
   position: fixed;
   top: 0; left: 0;
@@ -60,22 +57,193 @@ body::before {
 }
 @keyframes twinkle { 0% { opacity: 0.3; } 100% { opacity: 1; transform: scale(1.3); } }
 
-/* --- Conteneur principal --- */
+/* --- Conteneur général --- */
 .container {
   position: relative;
   z-index: 1;
-  width: 92%; /* Prend 92% de l'écran sur mobile pour laisser des marges */
-  max-width: 450px; /* Taille par défaut pour les téléphones */
+  width: 92%;
+  max-width: 450px;
   padding: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 14px;
-  margin-top: 4vh; /* Utilisation de la hauteur de l'écran (vh) pour s'adapter */
+  margin-top: 4vh;
   margin-bottom: 4vh;
 }
 
-/* --- Titre du jeu --- */
+/* =========================================================
+   PAGE D'ACCUEIL : DESIGN ÉQUILIBRÉ & CENTRÉ PLEIN ÉCRAN
+   ========================================================= */
+
+/* Conteneur centré au milieu de l'écran */
+.home-container {
+  max-width: 1100px !important;
+  width: 90%;
+  min-height: calc(100vh - 80px); /* Occupe toute la hauteur pour se centrer verticalement */
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 36px;
+}
+
+/* Grille côte à côte plus spacieuse */
+.home-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 32px;
+  width: 100%;
+}
+
+/* Cartes en verre dépoli agrandies */
+.home-card {
+  background: linear-gradient(145deg, rgba(17, 24, 39, 0.9), rgba(15, 23, 42, 0.82));
+  border: 1.5px solid rgba(6, 182, 212, 0.35);
+  border-radius: 24px;
+  padding: 44px 34px;
+  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.6), 0 0 30px rgba(6, 182, 212, 0.15);
+  backdrop-filter: blur(14px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.home-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(6, 182, 212, 0.7);
+  box-shadow: 0 20px 45px -5px rgba(0, 0, 0, 0.7), 0 0 40px rgba(6, 182, 212, 0.25);
+}
+
+/* Badges */
+.card-badge {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 18px;
+}
+
+.alt-badge {
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+/* Typographie carte 1 (Titre) */
+.title-card h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #38bdf8, #818cf8);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 12px;
+  line-height: 1.1;
+}
+
+.title-icon {
+  font-size: 2.2rem;
+  vertical-align: middle;
+  -webkit-text-fill-color: initial;
+}
+
+.title-card .subtitle {
+  font-size: 1.15rem;
+  color: #94a3b8;
+  letter-spacing: 0.5px;
+}
+
+/* Typographie carte 2 (Mission) */
+.desc-card h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 2.3rem;
+  color: #f8fafc;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.desc-card .desc-text {
+  font-size: 1.25rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+.desc-card .desc-text strong {
+  color: #38bdf8;
+}
+
+/* =========================================================
+   BOUTONS D'ACCUEIL (BLEU AIRBUS & JAUNE OR ACCORDÉ À MISSION)
+   ========================================================= */
+.menu-buttons-home {
+  display: flex;
+  gap: 24px;
+  width: 100%;
+  max-width: 820px;
+  margin-top: 10px;
+}
+
+.menu-buttons-home .btn {
+  flex: 1;
+  padding: 20px 28px;
+  font-size: 1.4rem;
+  letter-spacing: 1.2px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+/* Bouton "Lancer la Partie" (Bleu royal éclatant) */
+.btn-primary-glow {
+  background: linear-gradient(135deg, #0284c7, #1d4ed8);
+  color: #ffffff;
+  border: 1px solid rgba(56, 189, 248, 0.6);
+  box-shadow: 0 4px 25px rgba(29, 78, 216, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.btn-primary-glow:hover {
+  background: linear-gradient(135deg, #0369a1, #1e40af);
+  box-shadow: 0 8px 32px rgba(29, 78, 216, 0.7);
+  transform: translateY(-3px);
+}
+
+/* Bouton "Voir le Classement" (Jaune / Or ambré éclatant) */
+.btn-secondary-glass {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(217, 119, 6, 0.32));
+  color: #fef08a;
+  border: 1.5px solid rgba(245, 158, 11, 0.75);
+  box-shadow: 0 4px 25px rgba(245, 158, 11, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+.btn-secondary-glass:hover {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.4), rgba(217, 119, 6, 0.5));
+  border-color: #fbbf24;
+  color: #ffffff;
+  box-shadow: 0 8px 32px rgba(245, 158, 11, 0.6);
+  transform: translateY(-3px);
+}
+
+/* =========================================================
+   TITRE ET ÉCRAN DE JEU
+   ========================================================= */
 .game-title {
   text-align: center;
   padding: 12px;
@@ -93,9 +261,9 @@ body::before {
   text-transform: uppercase;
   letter-spacing: 1px;
 }
-.game-title p { font-size: 0.8rem; color: #94a3b8; margin-top: 4px; }
+.game-title p { font-size: 0.85rem; color: #94a3b8; margin-top: 4px; }
 
-/* --- Stats --- */
+/* Stats */
 .stats {
   display: flex;
   gap: 10px;
@@ -117,7 +285,7 @@ body::before {
 .lives { display: flex; gap: 4px; justify-content: center; }
 .heart { color: var(--red); font-size: 1rem; }
 
-/* --- Sélecteur de catégorie --- */
+/* Thème / Indice */
 .category-select {
   background-color: #3b82f6;
   border-radius: 20px;
@@ -126,12 +294,10 @@ body::before {
   font-weight: 600;
   letter-spacing: 0.5px;
   color: white;
-  cursor: pointer;
   text-transform: uppercase;
   box-shadow: 0 0 10px rgba(59,130,246,0.4);
 }
 
-/* --- Clue Box --- */
 .clue-box {
   width: 100%;
   background-color: var(--panel-dark);
@@ -156,9 +322,9 @@ body::before {
   box-shadow: 0 0 15px rgba(59,130,246,0.7);
   margin-bottom: 8px;
 }
-.clue-text { font-size: 0.9rem; color: #cbd5e1; line-height: 1.4; }
+.clue-text { font-size: 0.95rem; color: #cbd5e1; line-height: 1.4; }
 
-/* --- Cases de réponse --- */
+/* Cases de réponse & tuiles */
 .answer-slots {
   display: flex;
   gap: 8px;
@@ -181,7 +347,6 @@ body::before {
 .slot.correct { border-color: var(--green); background-color: rgba(16,185,129,0.1); }
 .slot.filled { border-color: var(--cyan); background-color: rgba(6,182,212,0.1); }
 
-/* --- Tuiles de lettres --- */
 .letter-tiles {
   display: flex;
   gap: 12px;
@@ -206,7 +371,7 @@ body::before {
 .tile:active { transform: translateY(4px); box-shadow: none; }
 .tile.used { opacity: 0.3; cursor: default; }
 
-/* --- Boutons d'action --- */
+/* Boutons de commande */
 .action-buttons {
   display: flex;
   gap: 10px;
@@ -231,7 +396,7 @@ body::before {
 .btn-hint { background-color: #f97316; color: white; box-shadow: 0 0 15px rgba(249,115,22,0.5); }
 .btn-clear { background-color: #ef4444; color: white; box-shadow: 0 0 15px rgba(239,68,68,0.5); }
 
-/* --- Section de mots trouvés --- */
+/* Mots trouvés */
 .found-words-section {
   font-family: 'Barlow Condensed', sans-serif;
   font-size: 0.8rem;
@@ -243,45 +408,57 @@ body::before {
   margin-top: 8px;
 }
 
-
 /* =========================================================
-   ADAPTATION PC & TABLETTES (RESPONSIVE DESIGN)
+   LISTES & SECTIONS DE CLASSEMENT
    ========================================================= */
-@media (min-width: 768px) {
-  /* On élargit le conteneur et on augmente les espacements */
-  .container {
-    max-width: 650px;
-    gap: 20px;
-    padding: 30px;
-    margin-top: 8vh;
-  }
-  
-  /* On grossit les textes de l'en-tête */
-  .game-title h1 { font-size: 2.2rem; }
-  .game-title p { font-size: 1.1rem; }
-  
-  /* On grossit les scores */
-  .stat-value { font-size: 2.4rem; }
-  .stat-label { font-size: 0.8rem; }
-  .heart { font-size: 1.4rem; }
+.leaderboard-container {
+  width: 100%;
+  background: var(--panel-dark);
+  border: 1px solid rgba(6,182,212,0.4);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: var(--blue-glow);
+}
 
-  /* On grossit la question */
-  .category-select { font-size: 1rem; padding: 8px 20px; }
-  .clue-number { width: 50px; height: 50px; font-size: 2.4rem; margin-bottom: 15px; }
-  .clue-text { font-size: 1.2rem; line-height: 1.6; }
+#main-leaderboard-list,
+#modal-leaderboard-list {
+  list-style: none;
+  padding: 0;
+  max-height: 50vh;
+  overflow-y: auto;
+  text-align: left;
+}
 
-  /* On grossit les cases et les tuiles de lettres */
-  .slot { width: 64px; height: 64px; font-size: 2.8rem; border-radius: 12px; }
-  .tile { width: 76px; height: 76px; font-size: 3rem; border-radius: 14px; }
-  
-  /* On grossit les boutons d'action */
-  .btn { padding: 18px 12px; font-size: 1.3rem; border-radius: 14px; }
-  
-  .found-words-section { font-size: 1rem; }
+#main-leaderboard-list li,
+#modal-leaderboard-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.04);
+  padding: 12px 14px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.25rem;
+  border-left: 4px solid var(--cyan);
+}
+
+.leaderboard-player {
+  color: var(--text-light);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leaderboard-score {
+  color: var(--gold);
+  font-weight: 700;
+  margin-left: 10px;
+  white-space: nowrap;
 }
 
 /* =========================================================
-   MODALE DE CLASSEMENT FINAL
+   MODALE
    ========================================================= */
 .modal {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -290,13 +467,13 @@ body::before {
   display: flex; justify-content: center; align-items: center;
   backdrop-filter: blur(5px);
 }
-.modal.hidden { display: none !important; }
+.modal.hidden, .hidden { display: none !important; }
 
 .modal-content {
   background: var(--panel-dark);
   border: 1px solid rgba(6,182,212,0.4);
   border-radius: 16px;
-  padding: 24px; width: 90%; max-width: 400px;
+  padding: 24px; width: 92%; max-width: 440px;
   text-align: center;
   box-shadow: var(--blue-glow);
 }
@@ -312,136 +489,123 @@ body::before {
 }
 #player-name:focus { box-shadow: 0 0 15px rgba(6,182,212,0.5); }
 
-#leaderboard-list {
-  list-style: none; padding: 0; margin-top: 10px;
-  max-height: 220px; overflow-y: auto; text-align: left;
-}
-#leaderboard-list li {
-  display: flex; justify-content: space-between;
-  background: rgba(255,255,255,0.05); padding: 12px;
-  border-radius: 8px; margin-bottom: 8px;
-  font-family: 'Barlow Condensed', sans-serif; font-size: 1.2rem;
-  border-left: 3px solid var(--cyan);
-}
-#leaderboard-list li span:last-child { color: var(--gold); font-weight: bold; }
-.hidden { display: none; }
-
 /* =========================================================
-   BOUTON PLEIN ÉCRAN
+   BOUTONS DE NAVIGATION FIXES
    ========================================================= */
-#fullscreen-btn {
+#fullscreen-btn, #home-nav-btn {
   position: fixed;
   top: 20px;
-  left: 20px;
   z-index: 1000;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(6,182,212,0.4);
   color: var(--cyan);
   border-radius: 10px;
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
   cursor: pointer;
   backdrop-filter: blur(5px);
   transition: all 0.2s ease;
 }
 
-#fullscreen-btn:hover {
+#fullscreen-btn { left: 20px; }
+#home-nav-btn { right: 20px; }
+
+#fullscreen-btn:hover, #home-nav-btn:hover {
   background: rgba(6,182,212,0.2);
   box-shadow: 0 0 12px rgba(6,182,212,0.5);
   transform: scale(1.05);
 }
 
-#fullscreen-btn:active {
-  transform: scale(0.95);
-}
-
-/* On peut cacher ce bouton sur les tout petits téléphones si besoin, 
-   mais par défaut il s'affichera partout. */
 @media (max-width: 400px) {
-  #fullscreen-btn {
+  #fullscreen-btn, #home-nav-btn {
     top: 10px;
-    left: 10px;
     width: 36px;
     height: 36px;
   }
+  #fullscreen-btn { left: 10px; }
+  #home-nav-btn { right: 10px; }
 }
 
 /* =========================================================
-   ADAPTATION PC & TABLETTES (Plein écran recentré et agrandi)
+   RESPONSIVE PC & TABLETTES
    ========================================================= */
 @media (min-width: 768px) {
-  /* On élargit considérablement le conteneur central */
-  .container {
+  #game-screen, #leaderboard-screen {
     max-width: 950px; 
     gap: 25px;
     padding: 30px;
     margin-top: 6vh;
   }
   
-  /* Textes de l'en-tête plus massifs */
   .game-title h1 { font-size: 2.6rem; }
   .game-title p { font-size: 1.2rem; }
   
-  /* Statistiques plus imposantes */
   .stat-box { padding: 15px 0; }
   .stat-value { font-size: 3rem; }
-  .stat-label { font-size: 1rem; letter-spacing: 1px; }
+  .stat-label { font-size: 1rem; }
   .heart { font-size: 1.8rem; }
 
-  /* Indice et question plus larges */
   .category-select { font-size: 1.2rem; padding: 10px 30px; }
   .clue-number { width: 60px; height: 60px; font-size: 2.8rem; margin-bottom: 15px; }
   .clue-text { font-size: 1.5rem; line-height: 1.6; padding: 0 40px; }
 
-  /* Cases et tuiles gigantesques pour bien occuper l'espace */
   .slot { width: 80px; height: 80px; font-size: 3.5rem; border-radius: 12px; }
   .tile { width: 85px; height: 85px; font-size: 3.8rem; border-radius: 14px; }
   
-  /* Boutons plus cliquables et centrés */
   .action-buttons { max-width: 700px; margin: 10px auto 0 auto; gap: 20px; }
   .btn { padding: 22px 15px; font-size: 1.4rem; border-radius: 16px; }
   
-  /* Les mots trouvés s'étalent sur toute la largeur en bas */
-  .found-words-section { 
-    font-size: 1.2rem; 
-    text-align: center; 
-    width: 100%; 
-    margin-top: 20px;
+  .found-words-section { font-size: 1.2rem; text-align: center; width: 100%; margin-top: 20px; }
+  .found-words-section span { display: inline-block !important; font-size: 1.2rem !important; padding: 8px 16px !important; margin: 8px !important; }
+
+  #main-leaderboard-list { max-height: 55vh; }
+  #main-leaderboard-list li { font-size: 1.5rem; padding: 16px 20px; }
+}
+
+/* Mobile pour l'accueil */
+@media (max-width: 768px) {
+  .home-container {
+    min-height: auto;
+    margin-top: 4vh !important;
+    gap: 20px;
   }
-  
-  /* On force les mots trouvés à se placer les uns à côté des autres */
-  .found-words-section span {
-    display: inline-block !important;
-    font-size: 1.2rem !important;
-    padding: 8px 16px !important;
-    margin: 8px !important;
+  .home-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .home-card {
+    padding: 26px 18px;
+  }
+  .title-card h1 { font-size: 2.1rem; }
+  .desc-card h3 { font-size: 1.6rem; }
+  .desc-card .desc-text { font-size: 1rem; }
+  .menu-buttons-home {
+    flex-direction: column;
+    gap: 14px;
+  }
+  .menu-buttons-home .btn {
+    padding: 16px 20px;
+    font-size: 1.2rem;
   }
 }
 
 /* =========================================================
-   LOGO AIRBUS (Watermark)
+   LOGO AIRBUS
    ========================================================= */
 #airbus-logo {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 120px; /* Taille sur PC */
+  width: 120px;
   height: auto;
   z-index: 50;
-  opacity: 0.6; /* Un peu transparent pour ne pas gêner la lecture */
-  pointer-events: none; /* Pour que le logo ne bloque pas les clics en dessous */
+  opacity: 0.6;
+  pointer-events: none;
   transition: opacity 0.3s ease;
 }
 
-/* Sur PC, on le rend un peu plus visible au survol de la page */
-body:hover #airbus-logo {
-  opacity: 0.9;
-}
+body:hover #airbus-logo { opacity: 0.9; }
 
-/* Adaptation pour les mobiles (plus petit pour ne pas gêner les boutons) */
 @media (max-width: 768px) {
   #airbus-logo {
     width: 80px;
@@ -449,40 +613,4 @@ body:hover #airbus-logo {
     right: 10px;
     opacity: 0.4;
   }
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
-}
-
-.shake {
-  animation: shake 0.4s ease-in-out;
-}
-
-.answer-slots {
-  display: flex;
-  gap: 4px; /* Réduit l'espace entre les cases */
-  flex-wrap: wrap; /* Permet de passer à la ligne sur petit écran */
-  justify-content: center;
-  width: 100%;
-}
-
-.slot {
-  /* Utilise une unité flexible pour que la case s'adapte à la largeur de l'écran */
-  max-width: 35px; 
-  height: 45px;
-  font-size: 1.5rem;
-}
-
-#airbus-quote {
-    text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
-    letter-spacing: 0.5px;
-    animation: fadeInQuote 2s ease-in;
-}
-
-@keyframes fadeInQuote {
-    from { opacity: 0; }
-    to { opacity: 1; }
 }

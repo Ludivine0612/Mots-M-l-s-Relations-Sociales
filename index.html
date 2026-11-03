@@ -2,10 +2,6 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="mobile-web-app-capable" content="yes">
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dialogue Social — Le Jeu</title>
   
@@ -13,15 +9,56 @@
 </head>
 <body>
 
-    <button id="fullscreen-btn" onclick="toggleFullScreen()" title="Passer en plein écran">
+  <!-- Bouton Plein Écran -->
+  <button id="fullscreen-btn" onclick="toggleFullScreen()" title="Passer en plein écran">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
     </svg>
   </button>
 
+  <!-- Bouton Accueil en cours de jeu -->
+  <button id="home-nav-btn" class="hidden" onclick="goToHome()" title="Retour à l'accueil">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+    </svg>
+  </button>
+
   <div class="stars"></div>
 
-  <div class="container">
+  <!-- ==================== ÉCRAN 1 : PAGE D'ACCUEIL (CÔTE À CÔTE) ==================== -->
+  <div id="home-screen" class="container home-container">
+    <div class="home-grid">
+      <!-- Cadre 1 : Titre -->
+      <div class="home-card title-card">
+        <div class="card-badge">AIRBUS HELICOPTERS</div>
+        <h1><span class="title-icon">🤝</span> DIALOGUE SOCIAL</h1>
+        <p class="subtitle">Le Jeu des Définitions RH & Relations Sociales</p>
+      </div>
+
+      <!-- Cadre 2 : Présentation & Mission -->
+      <div class="home-card desc-card">
+        <div class="card-badge alt-badge">MISSION</div>
+        <h3>Bienvenue à bord !</h3>
+        <p class="desc-text">
+          Recompose les <strong>20 mots-clés</strong> du dialogue social à l'aide des indices et tente d'atteindre le sommet du classement.
+        </p>
+      </div>
+    </div>
+
+    <!-- Boutons d'action -->
+    <div class="menu-buttons-home">
+      <button class="btn btn-primary-glow" onclick="startNewGame()">
+        <span>▶</span> Lancer la Partie
+      </button>
+      <button class="btn btn-secondary-glass" onclick="openLeaderboardScreen()">
+        <span>🏆</span> Voir le Classement
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== ÉCRAN 2 : JEU EN COURS ==================== -->
+  <div id="game-screen" class="container hidden">
     <div class="game-title">
       <h1><span style="font-size: 1.2rem; vertical-align: middle;">🤝</span> DIALOGUE SOCIAL</h1>
       <p>Peux-tu former 20 mots ?</p>
@@ -37,7 +74,7 @@
         <div class="stat-value" id="found-value">0<span>/20</span></div>
       </div>
       <div class="stat-box">
-        <div class="stat-label">Vies par mot</div>
+        <div class="stat-label">Essais</div>
         <div class="stat-value lives">
           <span class="heart">&#10084;&#65039;</span><span class="heart">&#10084;&#65039;</span><span class="heart">&#10084;&#65039;</span>
         </div>
@@ -48,18 +85,12 @@
 
     <div class="clue-box">
       <div class="clue-number">1</div>
-      <div class="clue-text">Manière d'agir convenue entre partenaires sociaux pour régler un différend (ex : résolution à l'___)</div>
+      <div class="clue-text">Manière d'agir convenue entre partenaires sociaux pour régler un différend</div>
     </div>
 
-    <div class="answer-slots">
-      <div class="slot" id="slot-0"></div>
-      <div class="slot" id="slot-1"></div>
-      <div class="slot" id="slot-2"></div>
-      <div class="slot" id="slot-3"></div>
-    </div>
+    <div class="answer-slots"></div>
 
-    <div class="letter-tiles" id="tiles-area">
-      </div>
+    <div class="letter-tiles" id="tiles-area"></div>
 
     <div class="action-buttons">
       <button class="btn btn-validate" onclick="validateProposedWord()">✓ Valider</button>
@@ -70,6 +101,24 @@
     <div class="found-words-section">Mots trouvés</div>
   </div>
 
+  <!-- ==================== ÉCRAN 3 : TABLEAU DES SCORES DÉDIÉ ==================== -->
+  <div id="leaderboard-screen" class="container hidden">
+    <div class="game-title">
+      <h1>🏆 CLASSEMENT DES SCORES</h1>
+      <p>Les meilleurs négociateurs</p>
+    </div>
+
+    <div class="leaderboard-container">
+      <ul id="main-leaderboard-list"></ul>
+    </div>
+
+    <div class="menu-buttons-home">
+      <button class="btn btn-primary-glow" onclick="startNewGame()">▶ Jouer maintenant</button>
+      <button class="btn btn-secondary-glass" onclick="goToHome()">🏠 Accueil</button>
+    </div>
+  </div>
+
+  <!-- ==================== MODALE DE FIN DE PARTIE ==================== -->
   <div id="endgame-modal" class="modal hidden">
     <div class="modal-content">
       <h2 id="endgame-title">🎉 Terminé !</h2>
@@ -77,19 +126,15 @@
 
       <div id="name-input-section">
         <input type="text" id="player-name" placeholder="Entre ton pseudo..." maxlength="15">
-        <button class="btn btn-validate" onclick="saveScore()">Enregistrer</button>
+        <button class="btn btn-primary-glow" style="width: 100%;" onclick="saveScore()">Enregistrer</button>
       </div>
 
       <div id="leaderboard-section" class="hidden">
-    <ul id="leaderboard-list"></ul>
-    
-    <p id="airbus-quote" style="font-style: italic; font-size: 0.85rem; margin-top: 20px; color: var(--cyan); text-align: center; line-height: 1.4; border-top: 1px solid rgba(6, 182, 212, 0.2); padding-top: 15px;">
-        « Chez Airbus, la précision est vitale, <br>mais la réactivité fait la différence ! »
-    </p>
-
-    <button class="btn btn-validate" style="margin-top: 15px; width: 100%;" onclick="startNewGame()">Nouveau Joueur</button>
-    <button class="btn btn-clear" style="margin-top: 10px; width: 100%; font-size: 0.9rem;" onclick="clearLeaderboard()">Effacer l'historique</button>
-</div>
+        <ul id="modal-leaderboard-list"></ul>
+        <button class="btn btn-primary-glow" style="margin-top: 15px; width: 100%;" onclick="startNewGame()">Rejouer</button>
+        <button class="btn btn-secondary-glass" style="margin-top: 10px; width: 100%;" onclick="goToHome()">Accueil</button>
+        <button class="btn btn-clear" style="margin-top: 10px; width: 100%; font-size: 0.85rem;" onclick="clearLeaderboard()">Réinitialiser le classement</button>
+      </div>
     </div>
   </div>
 
