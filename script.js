@@ -73,7 +73,7 @@ let score = 0;
 let foundCount = 0;
 let lives = 3;
 let isGameActive = false;
-
+let wordStartTime = 0;
 // =========================================================
 // 3. NAVIGATION DES ÉCRANS
 // =========================================================
@@ -144,6 +144,9 @@ function loadWord() {
 
   renderSlots(currentData.word.length);
   renderLetterTiles(currentData.letters);
+  
+  // Lancement du chrono de 30 secondes pour le bonus
+  wordStartTime = Date.now(); 
 }
 
 function renderSlots(numberOfSlots) {
@@ -239,7 +242,14 @@ function validateProposedWord() {
 
   if (proposedString === currentData.word) {
     slots.forEach(slot => slot.classList.add('correct'));
-    score += 100;
+    
+    // Calcul du temps écoulé en secondes
+    const timeTaken = Math.floor((Date.now() - wordStartTime) / 1000);
+    // Bonus : 30 secondes max, 1 point par seconde économisée
+    const timeBonus = Math.max(0, 30 - timeTaken);
+    
+    score += (100 + timeBonus); // 100 pts de succès + bonus
+    
     foundCount += 1;
     updateStatsUI();
     addFoundWordToUI(currentData.word);
